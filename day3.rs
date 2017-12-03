@@ -1,7 +1,3 @@
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::BufReader;
-
 
 fn distance((x, y): (i64, i64)) -> u64 {
     x.abs() as u64 + y.abs() as u64
@@ -32,22 +28,12 @@ fn coordinates(n: i64) -> (i64, i64) {
 }
 
 fn lookup(n: u64) -> u64 {
-    let file = File::open("day3part2table.txt").unwrap();
-    let reader = BufReader::new(file);
+    static TABLE: &'static [u64] = &include!("day3part2table.txt");
 
-    reader
-        .lines()
-        .map(|l| l.unwrap())
-        .filter(|l| !l.starts_with('#') && !l.is_empty())
-        .map(|l| {
-            l.split_whitespace()
-                .nth(1)
-                .and_then(|s| s.parse::<u64>().ok())
-                .unwrap()
-        })
-        .skip_while(|&s| s <= n)
-        .next()
-        .unwrap()
+    match TABLE.binary_search(&n) {
+        Ok(i) => TABLE[i + 1],
+        Err(i) => TABLE[i],
+    }
 }
 
 
