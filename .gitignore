@@ -1,4 +1,5 @@
-*
-!*.rs
-!.gitignore
-!*.txt
+target
+*.exe
+*.pdb
+*.bk
+Cargo.lock
