@@ -24,13 +24,14 @@ fn part2(input: &[isize]) -> usize {
         steps += 1;
     }
     steps
-
 }
 
 fn main() {
     let stdin = io::stdin();
     let lock = stdin.lock();
-    let input: Vec<_> = lock.lines().map(|l| l.unwrap().parse::<isize>().unwrap()).collect();
+    let input: Vec<_> = lock.lines()
+        .map(|l| l.unwrap().parse::<isize>().unwrap())
+        .collect();
 
     println!("Part1: {}", part1(&input));
     println!("Part2: {}", part2(&input));
