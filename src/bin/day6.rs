@@ -39,13 +39,11 @@ fn main() {
         .collect();
     let mut iterations = 0;
 
-    while {
+    while !seen.contains(&input) {
         seen.push(input.to_vec());
         iterate(&mut input);
         iterations += 1;
-        
-        !seen.contains(&input)
-    } {} // ugly hack for do while
+    }
     println!("Part1: {}", iterations);
 
     let first = seen.iter().position(|s| &input == s).unwrap();
