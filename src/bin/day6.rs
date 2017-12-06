@@ -38,16 +38,16 @@ fn main() {
         .map(|n| n.parse().unwrap())
         .collect();
     let mut iterations = 0;
-    seen.push(input.to_vec());
-    // slice of last one because we check before mutating. (rust does not have do while)
-    while !seen[..seen.len() - 1].contains(&input) {
+
+    while {
+        seen.push(input.to_vec());
         iterate(&mut input);
         iterations += 1;
-        seen.push(input.to_vec());
-    }
+        
+        !seen.contains(&input)
+    } {} // ugly hack for do while
     println!("Part1: {}", iterations);
 
-    let last = &seen[seen.len() - 1];
-    let first = seen.iter().position(|s| last == s).unwrap();
-    println!("Part2: {}", seen.len() - 1 - first);
+    let first = seen.iter().position(|s| &input == s).unwrap();
+    println!("Part2: {}", seen.len() - first);
 }
