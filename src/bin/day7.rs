@@ -23,8 +23,7 @@ fn parse(input: &str) -> Program {
         let weight = l.next().unwrap();
         // strip parens
         let weight: usize = weight[1..weight.len() - 1].parse().unwrap();
-        let children: Vec<_> = match l.next() {
-            // ->
+        let children: Vec<_> = match l.next() { // ->
             None => vec![],
             Some(_) => l.map(|n| n.trim_right_matches(',').into()).collect(),
         };
@@ -41,17 +40,7 @@ fn parse(input: &str) -> Program {
     let children = map.values().flat_map(|p| &p.children).collect::<Vec<_>>();
     let root = map.values().find(|p| !children.contains(&&p.name)).unwrap();
 
-
-    let name = root.name.to_owned();
-
-    Program {
-        name: name,
-        weight: root.weight,
-        children: root.children
-            .iter()
-            .map(|p| build_program(&map, p))
-            .collect(),
-    }
+    build_program(&map, &root.name)
 }
 
 fn build_program(map: &HashMap<String, ParseProgram>, name: &str) -> Program {
